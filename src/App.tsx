@@ -1,21 +1,28 @@
 import React from 'react';
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import MainPage from './mainPage';
-import ResponsiveAppBar from './navigation';
-import PotionGame from './potionGame/potionGame';
+import './reset.css'
+import './main.css'
+import { Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import PotionGame from './pages/potionGame';
+import Minesweeper from './pages/minesweeper';
+import AllPages from './pages/menu';
 
 function App() {
+  const location = useLocation()
+
+  const pages =[
+    {color: "#E7E4BB", path: "/potion", name: 'Potion game'},
+    {color: "#FFCE9C", path: "/minesweeper", name: 'Minesweeper game'},
+  ]
+
   return (
-    <>
-    <ResponsiveAppBar/>
-
-    <Routes>
-      <Route path='/' element={<MainPage/>}/>
-      <Route path='/potion' element={<PotionGame/>}/>
-    </Routes>
-
-    </>
+    <AnimatePresence>
+      <Routes location={location} key={location.pathname}>
+        <Route path='/' element={<AllPages pages={pages}/>}/>
+        <Route path='/potion' element={<PotionGame/>}/>
+        <Route path='/minesweeper' element={<Minesweeper/>}/>
+      </Routes>
+    </AnimatePresence>
   );
 }
 
